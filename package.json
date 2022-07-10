@@ -20,6 +20,6 @@
   },
   "homepage": "https://github.com/LuciaMGil/node-readme-generator#readme",
   "dependencies": {
-    "inquirer": "^9.0.0"
+    "inquirer": "^6.5.0"
   }
 }
