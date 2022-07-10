@@ -1,6 +1,11 @@
-const inquirer = require("inquirer")
+const inquirer = require("inquirer");
+const fs = require("fs");
+const util = require("util");
+
+const writeFileAsync = util.promisify(fs.writeFile);
 
 console.log(`program started`)
+
 // Prompts asking for Title, Description, Table of contents, Installation, Usage , License, Contributing, Tests and Questions
 inquirer.prompt([
     {
@@ -27,16 +32,6 @@ inquirer.prompt([
         type: 'input',
         message: 'Enter a description of your application: ',
         name: 'description',
-        validate: (value) => {
-            if (value) {
-                return true
-            } else {return `Please enter a response`}
-        }
-    },
-    {
-        type: 'input',
-        message: 'Create a table of contents: ',
-        name: 'table',
         validate: (value) => {
             if (value) {
                 return true
@@ -115,8 +110,45 @@ inquirer.prompt([
     
 ])
 .then ((data) => {
-    console.log(data)
-    console.log(`program complete`)
-    console.log(answers)
-} )
+    console.log(data);  
+    const readme = generateTemplate(data);
+    return writeFileAsync(`README.md`, readme);
+})
+.catch(function(err) {
+        console.log(err);
+});
+ 
+
+
+generateTemplate = (data) => {
+    return`
+    # ${data.title}     
+    ${data.description}
+        
+    ## Table of Contents
+        
+    1. [Installation](#installation)
+    2. [Usage](#usage)
+    3. [Contributing](#contributing)
+    4. [Test](#test)
+    5. [Questions](#questions)
+    6. [License](#license)
+        
+    # Installation
+    ${data.installation}
+    # Usage
+    ${data.usage}
+    # Contribution
+    ${data.contribution}
+    # Test
+    ${data.test}
+    # Questions
+    If you have any questions or would like to contact me feel free to reach me at:
+    - Email: ${data.email}
+    - Github: [${data.github}](https://github.com/${data.github})
+    ## License
+            `
+}
+
+
 
