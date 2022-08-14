@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/LuciaMGil/node-readme-generator#readme",
   "dependencies": {
+    "fs": "^0.0.1-security",
     "inquirer": "^6.5.0",
-    "util": "^0.12.3"
+    "util": "^0.12.4"
   }
 }

@@ -1,3 +1,10 @@
+
+
+
+
+
+
+
 const inquirer = require("inquirer");
 const fs = require("fs");
 const util = require("util");
@@ -7,7 +14,8 @@ const writeFileAsync = util.promisify(fs.writeFile);
 console.log(`program started`)
 
 // Prompts asking for Title, Description, Table of contents, Installation, Usage , License, Contributing, Tests and Questions
-inquirer.prompt([
+promptQuestions = () => {
+    return inquirer.prompt([
     {
         type: 'input',
         message: 'Enter your name:',
@@ -108,47 +116,57 @@ inquirer.prompt([
         }
     },
     
-])
+])}
+
+
+
+generateTemplate = (data) => {
+    return`
+# ${data.title}     
+    ${data.description}
+        
+## Table of Contents
+        
+* [Installation](#installation)
+* [Usage](#usage)
+* [Contributing](#contributing)
+* [Test](#test)
+* [Questions](#questions)
+* [License](#license)
+        
+# Installation
+    ${data.installation}
+# Usage
+    ${data.usage}
+# Contribution
+    ${data.contribution}
+# Test
+    ${data.test}
+# Questions
+    If you have any questions or would like to contact me feel free to reach me at:
+    - Email: ${data.email}
+    - Github: [${data.github}](https://github.com/${data.github})
+## License
+    `
+}
+
+
+
+
+promptQuestions()
 .then ((data) => {
     console.log(data);  
     const readme = generateTemplate(data);
-    return writeFileAsync(`README.md`, readme);
+    console.log(readme);
+
+    return fs.writeFile('README.md', readme, function (err) {
+        if (err) throw err;
+        console.log('File is created successfully.');
+      });
+
+   
 })
 .catch(function(err) {
         console.log(err);
 });
  
-
-
-generateTemplate = (data) => {
-    return`
-    # ${data.title}     
-    ${data.description}
-        
-    ## Table of Contents
-        
-    1. [Installation](#installation)
-    2. [Usage](#usage)
-    3. [Contributing](#contributing)
-    4. [Test](#test)
-    5. [Questions](#questions)
-    6. [License](#license)
-        
-    # Installation
-    ${data.installation}
-    # Usage
-    ${data.usage}
-    # Contribution
-    ${data.contribution}
-    # Test
-    ${data.test}
-    # Questions
-    If you have any questions or would like to contact me feel free to reach me at:
-    - Email: ${data.email}
-    - Github: [${data.github}](https://github.com/${data.github})
-    ## License
-            `
-}
-
-
-
