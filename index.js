@@ -1,6 +1,7 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 
+
 console.log(`program started`)
 
 // Prompts asking for Title, Description, Table of contents, Installation, Usage , License, Contributing, Tests and Questions
@@ -108,9 +109,9 @@ promptQuestions = () => {
     
 ])}
 
-const selectedLicense = (answers) => {
+const selectedLicense = (data) => {
     // Switch case to return corresponding badge of selected license
-    switch(answers.license){
+    switch(data.license){
         case 'Artistic license 2.0':
             return '[![License: Artistic-2.0](https://img.shields.io/badge/License-Artistic%202.0-0298c3.svg)](https://opensource.org/licenses/Artistic-2.0)';
         case 'Boost Software License 1.0':
@@ -138,9 +139,9 @@ const selectedLicense = (answers) => {
 
     }
 };
-const selectedLicenseInfo = (answers) => {
+const selectedLicenseInfo = (data) => {
     // Switch case to return corresponding license info
-    switch(answers.license){
+    switch(data.license){
         case 'Artistic license 2.0':
             return `
             Licenced under Artistic license 2.0 
@@ -184,7 +185,7 @@ const selectedLicenseInfo = (answers) => {
             return `
             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE 
             Version 2, December 2004 
-            Copyright (C) 2022 ${answers.name} 
+            Copyright (C) 2022 ${data.name} 
             Everyone is permitted to copy and distribute verbatim or modified 
             copies of this license document, and changing it is allowed as long 
             as the name is changed. 
@@ -196,7 +197,7 @@ const selectedLicenseInfo = (answers) => {
             THE ACCOMPANYING PROGRAM IS PROVIDED UNDER THE TERMS OF THIS ECLIPSE PUBLIC LICENSE ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THE PROGRAM CONSTITUTES RECIPIENT'S ACCEPTANCE OF THIS AGREEMENT.`;
         case 'GNU Affero General Public License v3.0':
             return `
-            Copyright (C) 2022 ${answers.name}
+            Copyright (C) 2022 ${data.name}
             This program is free software: you can redistribute it and/or modify
             it under the terms of the GNU Affero General Public License as
             published by the Free Software Foundation, either version 3 of the
@@ -209,7 +210,7 @@ const selectedLicenseInfo = (answers) => {
             along with this program.  If not, see <https://www.gnu.org/licenses/>.`;
         case 'GNU General Public License v2.0':
             return `
-                Copyright (C) 2022  ${answers.name}
+                Copyright (C) 2022  ${data.name}
             This program is free software; you can redistribute it and/or
             modify it under the terms of the GNU General Public License
             as published by the Free Software Foundation; either version 2
@@ -224,7 +225,7 @@ const selectedLicenseInfo = (answers) => {
         `;
         case 'GNU General Public License v3.0':
             return `
-            Copyright (C) 2022  ${answers.name}
+            Copyright (C) 2022  ${data.name}
             This program is free software: you can redistribute it and/or modify
             it under the terms of the GNU General Public License as published by
             the Free Software Foundation, either version 3 of the License, or
@@ -241,11 +242,11 @@ const selectedLicenseInfo = (answers) => {
              Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.`;
         case 'ISC':
             return `
-                Copyright 2022  ${answers.name}
+                Copyright 2022  ${data.name}
     Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.`;
         case 'MIT':
             return `
-                Copyright 2022  ${answers.name}
+                Copyright 2022  ${data.name}
     Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
     The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 `;
@@ -254,7 +255,7 @@ const selectedLicenseInfo = (answers) => {
 
 generateTemplate = (data) => {
     return`
-# ${data.title}     
+# ${data.title}     ${selectedLicense(data)} 
     ${data.description}
         
 ## Table of Contents
